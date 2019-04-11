@@ -1,9 +1,7 @@
-React图片查看组件
+React图片查看组件 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 ===
 
 使用`React`打造的图片查看器
-
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
 【请在移动端查看效果】
 
