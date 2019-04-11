@@ -3,7 +3,22 @@ React图片查看组件
 
 使用`React`打造的图片查看器
 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+
 【请在移动端查看效果】
+
+<p align='center'>
+<img src='./picture/index.gif' width='200' alt='viewer'>
+</p>
+
+快速查看
+---
+
+```sh
+cd image-viewer
+npm install
+npm start
+```
 
 特性
 ---
