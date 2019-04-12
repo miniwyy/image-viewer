@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import SingleImgView from './components/index.js';
+import FirstImg from './components/images/1.jpg';
+import SecondImg from './components/images/2.jpg';
+import ThirdImg from './components/images/3.jpg';
 
 class App extends Component {
   state = {
@@ -20,9 +23,9 @@ class App extends Component {
   render() {
     const { showViewer, current } = this.state;
     let imagelist = [
-      'https://zmage.caldis.me/imgSet/childsDream/1.jpg',
-      'https://zmage.caldis.me/imgSet/childsDream/2.jpg',
-      'https://zmage.caldis.me/imgSet/childsDream/3.jpg'
+      FirstImg,
+      SecondImg,
+      ThirdImg
     ];
     return (
       <div>
