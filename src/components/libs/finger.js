@@ -18,19 +18,25 @@ export default class Finger extends Component {
     this.longTapTimeout = null;
     this.singleTapTimeout = null;
     this.swipeTimeout = null;
-    this.x1 = this.x2 = this.y1 = this.y2 = null;
+    this.x1 = null;
+    this.x2 = null;
+    this.y1 = null;
+    this.y2 = null;
     this.preTapPosition = { x: null, y: null };
   }
 
   getLen(v) {
+    // console.log('获取长度');
     return Math.sqrt(v.x * v.x + v.y * v.y);
   }
 
   dot(v1, v2) {
+    // console.log('获取点 - 来自获取角度');
     return v1.x * v2.x + v1.y * v2.y;
   }
 
   getAngle(v1, v2) {
+    // console.log('获取角度');
     const mr = this.getLen(v1) * this.getLen(v2);
     if (mr === 0) return 0;
     let r = this.dot(v1, v2) / mr;
@@ -39,10 +45,12 @@ export default class Finger extends Component {
   }
 
   cross(v1, v2) {
+    // console.log('交叉计算 - 来自获取旋转角度');
     return v1.x * v2.y - v2.x * v1.y;
   }
 
   getRotateAngle(v1, v2) {
+    // console.log('获取转动角度');
     let angle = this.getAngle(v1, v2);
     if (this.cross(v1, v2) > 0) {
       angle *= -1;
@@ -51,6 +59,7 @@ export default class Finger extends Component {
     return angle * 180 / Math.PI;
   }
 
+  // 这个居然没用到，先保留。。。
   _resetState() {
     this.setState({
       x: null,
@@ -60,12 +69,14 @@ export default class Finger extends Component {
     });
   }
 
+  // 事件监听器
   _emitEvent(name, ...arg) {
     if (this.props[name]) {
       this.props[name](...arg);
     }
   }
 
+  // 当按下手指时，触发ontouchstart
   _handleTouchStart(evt) {
     if (!evt.touches) return;
     this.now = Date.now();
@@ -95,6 +106,7 @@ export default class Finger extends Component {
     }, 750);
   }
 
+  // 当移动手指时，触发ontouchmove
   _handleTouchMove(evt) {
     const preV = this.preV;
     const len = evt.touches.length;
@@ -132,11 +144,13 @@ export default class Finger extends Component {
     this.x2 = currentX;
     this.y2 = currentY;
 
-    if (len > 1) {
-      evt.preventDefault();
-    }
+    // 会报错，先注释
+    // if (len > 1) {
+    //   evt.preventDefault();
+    // }
   }
 
+  // 当一些其他的事件发生的时候（如电话接入或者弹出信息）会取消当前的touch操作，即触发ontouchcancel
   _handleTouchCancel() {
     clearInterval(this.singleTapTimeout);
     clearInterval(this.tapTimeout);
@@ -144,6 +158,7 @@ export default class Finger extends Component {
     clearInterval(this.swipeTimeout);
   }
 
+  // 当移走手指时，触发ontouchend
   _handleTouchEnd(evt) {
     this.end = Date.now();
     this._cancelLongTap();
@@ -181,18 +196,32 @@ export default class Finger extends Component {
     this.preV.y = 0;
     this.scale = 1;
     this.pinchStartLen = null;
-    this.x1 = this.x2 = this.y1 = this.y2 = null;
+    this.x1 = null;
+    this.x2 = null;
+    this.y1 = null;
+    this.y2 = null;
     this.multiTouch = false;
   }
 
   _cancelLongTap() {
+    // console.log('取消长按');
     clearTimeout(this.longTapTimeout);
   }
 
   _cancelSingleTap() {
+    // console.log('取消单按');
     clearTimeout(this.singleTapTimeout);
   }
 
+  /**
+   * 切换的方向
+   *
+   * @param {number} x1 当触发ontouchstart时，鼠标指针相对于整个文档的X坐标
+   * @param {number} x2 当触发ontouchmove时，鼠标指针相对于整个文档的X坐标
+   * @param {number} y1 当触发ontouchstart时，鼠标指针相对于整个文档的Y坐标
+   * @param {number} y2 当触发ontouchmove时，鼠标指针相对于整个文档的Y坐标
+   * @return {string} 方向的值
+   */
   _swipeDirection(x1, x2, y1, y2) {
     if (Math.abs(x1 - x2) > 80 || this.end - this.now < 250) {
       return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'Left' : 'Right') : (y1 - y2 > 0 ? 'Up' : 'Down');
@@ -201,7 +230,6 @@ export default class Finger extends Component {
   }
 
   render() {
-    // eslint-disable-next-line react/prop-types
     return React.cloneElement(React.Children.only(this.props.children), {
       onTouchStart: this._handleTouchStart.bind(this),
       onTouchMove: this._handleTouchMove.bind(this),

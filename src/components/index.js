@@ -153,13 +153,14 @@ class ImageView extends Component {
     if (this.focused) {
       return false;
     }
-    // eslint-disable-next-line default-case
     switch (direction) {
       case 'Left':
         current < this.arrLength - 1 && ++current && this.bindStyle(current);
         break;
       case 'Right':
         current > 0 && current-- && this.bindStyle(current);
+        break;
+      default: // do nothing
         break;
     }
     this.changeIndex(current);
@@ -170,7 +171,8 @@ class ImageView extends Component {
     const isLongPic = this.ob.getAttribute('long');
     const { scaleX, width } = this.ob;
 
-    if (this.ob.scaleX <= 1 || evt.touches.length > 1) {
+    if (scaleX <= 1 || evt.touches.length > 1) {
+      this.focused = false;
       return;
     }
 
@@ -180,11 +182,14 @@ class ImageView extends Component {
 
       if (isLongPic && scaleX * width === this.screenWidth) {
         this.focused = false;
-      } else {
-        this.focused = true;
       }
     } else {
       this.focused = false;
+    }
+
+    // 超过原尺寸，不允许切换
+    if (scaleX >= 1) {
+      this.focused = true;
     }
   }
 
