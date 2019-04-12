@@ -188,7 +188,7 @@ class ImageView extends Component {
     }
 
     // 超过原尺寸，不允许切换
-    if (scaleX >= 1) {
+    if (scaleX > 1) {
       this.focused = true;
     }
   }

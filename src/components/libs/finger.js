@@ -25,18 +25,18 @@ export default class Finger extends Component {
     this.preTapPosition = { x: null, y: null };
   }
 
+  // 获取长度
   getLen(v) {
-    // console.log('获取长度');
     return Math.sqrt(v.x * v.x + v.y * v.y);
   }
 
+  // 获取点 - 来自获取角度
   dot(v1, v2) {
-    // console.log('获取点 - 来自获取角度');
     return v1.x * v2.x + v1.y * v2.y;
   }
 
+  // 获取角度
   getAngle(v1, v2) {
-    // console.log('获取角度');
     const mr = this.getLen(v1) * this.getLen(v2);
     if (mr === 0) return 0;
     let r = this.dot(v1, v2) / mr;
@@ -44,29 +44,19 @@ export default class Finger extends Component {
     return Math.acos(r);
   }
 
+  // 交叉计算 - 来自获取旋转角度
   cross(v1, v2) {
-    // console.log('交叉计算 - 来自获取旋转角度');
     return v1.x * v2.y - v2.x * v1.y;
   }
 
+  // 获取转动角度
   getRotateAngle(v1, v2) {
-    // console.log('获取转动角度');
     let angle = this.getAngle(v1, v2);
     if (this.cross(v1, v2) > 0) {
       angle *= -1;
     }
 
     return angle * 180 / Math.PI;
-  }
-
-  // 这个居然没用到，先保留。。。
-  _resetState() {
-    this.setState({
-      x: null,
-      y: null,
-      swiping: false,
-      start: 0,
-    });
   }
 
   // 事件监听器
@@ -143,11 +133,6 @@ export default class Finger extends Component {
     this._cancelLongTap();
     this.x2 = currentX;
     this.y2 = currentY;
-
-    // 会报错，先注释
-    // if (len > 1) {
-    //   evt.preventDefault();
-    // }
   }
 
   // 当一些其他的事件发生的时候（如电话接入或者弹出信息）会取消当前的touch操作，即触发ontouchcancel
@@ -203,13 +188,13 @@ export default class Finger extends Component {
     this.multiTouch = false;
   }
 
+  // 取消长按
   _cancelLongTap() {
-    // console.log('取消长按');
     clearTimeout(this.longTapTimeout);
   }
 
+  // 取消单按
   _cancelSingleTap() {
-    // console.log('取消单按');
     clearTimeout(this.singleTapTimeout);
   }
 

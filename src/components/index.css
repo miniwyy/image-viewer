@@ -1,7 +1,6 @@
 html, body, div, ul, li, a {
     padding: 0;
     margin: 0;
-    -webkit-overflow-scrolling: touch;
 }
 
 .hide {
@@ -112,14 +111,14 @@ html, body, div, ul, li, a {
     text-align: center;
     position: relative;
     background-color: #000;
-    overflow-y: auto;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 .imagelist .imagelist-item .imagelist-item-img {
     position: absolute;
     top: 0;
     left: 0;
     max-width: 100%;
-    -webkit-overflow-scrolling: touch;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
 }
